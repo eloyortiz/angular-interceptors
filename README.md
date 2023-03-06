@@ -1,6 +1,6 @@
 # InterceptorApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
+This project uses Angular version 13.3.12.
 
 ## Development server
 
