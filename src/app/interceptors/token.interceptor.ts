@@ -18,7 +18,7 @@ export class TokenInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    console.info('paso por el interceptor');
+    console.info('>> en token-interceptor');
 
     const headers = new HttpHeaders({
       'token-usuario': 'ABCDE123123123123',

@@ -4,12 +4,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { AppHttpInterceptor } from './interceptors/http.interceptor';
 import { TimeInterceptor } from './interceptors/time.interceptor';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, HttpClientModule],
+  imports: [BrowserModule, HttpClientModule, ToastrModule.forRoot()],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
@@ -19,6 +21,11 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TimeInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
       multi: true,
     },
   ],

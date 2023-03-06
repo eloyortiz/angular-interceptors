@@ -9,7 +9,7 @@ export class UsuariosService {
   constructor(private http: HttpClient) {}
 
   obtenerUsuarios() {
-    let isFake = false;
+    let isFake = true;
     const API_URL = isFake
       ? 'https://reqres1231231231.in/api/user'
       : 'https://reqres.in/api/user';
