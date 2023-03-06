@@ -1,33 +1,44 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError, map } from "rxjs/operators";
-import { throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuariosService {
-
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
 
   obtenerUsuarios() {
+    let isFake = false;
+    const API_URL = isFake
+      ? 'https://reqres1231231231.in/api/user'
+      : 'https://reqres.in/api/user';
+    let params = new HttpParams().append('page', '1');
+    params = params.append('nombre', 'JohnDoe');
 
-    let params = new HttpParams().append('page', '2');
-    params = params.append('nombre', 'Eloy');
+    //TODO: is move to interceptor
+    // const headers = new HttpHeaders({
+    //   'token-usuario': 'ABCDE123123123123',
+    // });
 
-    
-
-
-    return this.http.get('https://reqres12312.in/api/user', {
-      params,
-      // headers
-    }).pipe(
-      map(resp => resp['data']),
-    );
-
+    return this.http
+      .get(API_URL, {
+        params,
+        //headers,
+      })
+      .pipe(
+        //tap((resp) => console.log('TAP resp :>> ', resp)),
+        map((resp) => resp['data'])
+        //TODO: is move to interceptor
+        // catchError(this.manejarError)
+      );
   }
 
-  
-
+  //TODO: is move to interceptor
+  // manejarError(error: HttpErrorResponse) {
+  //   console.log('sucedio un error');
+  //   console.log('registrado en log file');
+  //   console.warn(error);
+  //   return throwError('Error personalizado');
+  // }
 }

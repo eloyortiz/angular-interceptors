@@ -1,31 +1,37 @@
+import {
+  HttpErrorResponse,
+  HttpEvent,
+  HttpHandler,
+  HttpHeaders,
+  HttpInterceptor,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {  HttpErrorResponse, HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class InterceptorService implements HttpInterceptor {
-  
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(
+    req: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
+    console.info('paso por el interceptor');
 
     const headers = new HttpHeaders({
-      'token-usuario': 'ABCDE123123123123'
+      'token-usuario': 'ABCDE123123123123',
     });
 
     const reqClone = req.clone({
-        headers
-      } );
+      headers,
+    });
 
-    req.headers.append
-
-
-
-    return next.handle( reqClone ).pipe(
-      catchError( this.manejarError )
+    return next.handle(reqClone).pipe(
+      tap((resp) => console.log('INTERCEPTOR-TAP resp :>> ', resp)),
+      catchError(this.manejarError)
     );
-
   }
 
   manejarError(error: HttpErrorResponse) {
@@ -34,6 +40,4 @@ export class InterceptorService implements HttpInterceptor {
     console.warn(error);
     return throwError('Error personalizado');
   }
-
- 
 }
