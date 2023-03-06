@@ -10,31 +10,31 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class InterceptorService implements HttpInterceptor {
+@Injectable()
+export class TokenInterceptor implements HttpInterceptor {
+  constructor() {}
+
   intercept(
-    req: HttpRequest<any>,
+    request: HttpRequest<unknown>,
     next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  ): Observable<HttpEvent<unknown>> {
     console.info('paso por el interceptor');
 
     const headers = new HttpHeaders({
       'token-usuario': 'ABCDE123123123123',
     });
 
-    const reqClone = req.clone({
+    const reqClone = request.clone({
       headers,
     });
 
     return next.handle(reqClone).pipe(
       tap((resp) => console.log('INTERCEPTOR-TAP resp :>> ', resp)),
-      catchError(this.manejarError)
+      catchError(this.handleError)
     );
   }
 
-  manejarError(error: HttpErrorResponse) {
+  handleError(error: HttpErrorResponse) {
     console.log('sucedio un error');
     console.log('registrado en log file');
     console.warn(error);
