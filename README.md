@@ -1,6 +1,6 @@
 # InterceptorApp
 
-This project uses Angular version 14.2.12.
+This project uses Angular version 15.2.1.
 
 ## Development server
 
